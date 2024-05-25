@@ -6,13 +6,12 @@
         <groupId>br.com.loglabdigital.epp</groupId>
         <artifactId>bom</artifactId>
         <version>3.3.0-SNAPSHOT</version>
-		<relativePath>../bom</relativePath>
+        <relativePath>../bom/pom.xml</relativePath>
     </parent>
 
     <artifactId>epp</artifactId>
     <packaging>war</packaging>
     <name>epp</name>
-    <url>http://www.infox.com.br</url>
 
     <dependencies>
         <dependency>
