@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:infox="http://www.infox.com.br/jsf"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:wi="http://www.itx.com.br/jsf"
+    template="/WEB-INF/xhtml/templates/core/menuTemplate.xhtml"
+>
+<ui:define name="body">
+<style>
+.termo-adesao-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+</style>
+
+<infox:tabPanel
+    switchType="ajax"
+    activeTab="#{certificadoEletronicoView.tab}"
+    id="certificadoEletronicoTabs"
+>
+    <h:form>
+        <infox:tabHeaders />
+    </h:form>
+
+    <infox:tab
+        id="principal"
+        name="tabPrincipal"
+        title="#{infoxMessages['certificadoEletronico.titlePage']}"
+    >
+        <wi:panel id="panelCertEletronico">
+        <h:form>
+            <h:panelGroup rendered="#{not certificadoEletronicoView.exibeBotaoGerarCertificado}">
+                <wi:outputText
+                    id="dataInicio"
+                    value="#{certificadoEletronicoView.dataInicio}"
+                    label="#{infoxMessages['detalhesUsuario.dataInicio']}"
+                />
+                <wi:outputText
+                    id="dataFim"
+                    value="#{certificadoEletronicoView.dataFim}"
+                    label="#{infoxMessages['detalhesUsuario.dataFim']}"
+                />
+            </h:panelGroup>
+            <h:panelGroup rendered="#{certificadoEletronicoView.exibeBotaoGerarCertificado}">
+                <p:commandButton
+                    action="#{certificadoEletronicoView.gerarCertificadoRaiz}"
+                    ajax="true"
+                    partialSubmit="true"
+                    onclick="showLoading()"
+                    oncomplete="hideLoading()"
+                    value="Gerar certificado raiz"
+                    update="@(.form) :pageBodyDialogMessage"
+                    styleClass="buttons buttons-primary"
+                />
+            </h:panelGroup>
+        </h:form>
+
+                    <p:panel id="certificadosPanel" header="#{infoxMessages['certificadoEletronico.panelCertificados']}" rendered="#{not empty certificadoEletronicoView.certificadosGerados}">
+                        <h:form>
+                            <p:dataTable id="certificadosDataTable"
+                                value="#{certificadoEletronicoView.certificadosGerados}"
+                                var="row" paginator="true" rows="10"
+                                rowKey="#{row}"
+                                emptyMessage="#{infoxMessages['list.defaultNoDataLabel']}">
+                                <p:column>
+                                    <p:commandButton
+                                            action="#{certificadoEletronicoView.reemitirCertificado(row)}"
+                                            ajax="true"
+                                            partialSubmit="true"
+                                            onclick="showLoading();"
+                                            oncomplete="hideLoading()"
+                                            value="#{infoxMessages['certificadoEletronico.reemitirCertificado']}"
+                                            update="certificadosDataTable :pageBodyDialogMessage"
+                                            styleClass="buttons buttons-primary"
+                                        >
+                                        <p:confirm header="#{infoxMessages['certificadoEletronico.reemitirCertificado']}" message="#{infoxMessages['certificadoEletronico.confirmReemitir']}"  />
+                                    </p:commandButton>
+                                        <wi:assinador id="testeAssinatura"
+                                            callbackHandler="#{certificadoEletronicoView}"
+                                            assinavelProvider="#{certificadoEletronicoView.assinavelProvider}"
+                                            execute="@this" styleClass="buttons-primary"
+                                            render="certificadosDataTable :pageBodyDialogMessage"
+                                            onbegin="infox.showLoading();"
+                                            oncomplete="infox.hideLoading();"
+                                            cpfPessoaAssinatura="#{row.cpfPessoa}"
+                                            autenticarComUsuarioAtual="true"
+                                            labelAssinaturaEletronica="#{infoxMessages['certificadoEletronico.testar']}"
+                                            >
+                                        </wi:assinador>
+                                </p:column>
+                                <p:column
+                                    headerText="#{infoxMessages['certificadoEletronico.nomePessoa']}">
+                                    <h:outputText
+                                        value="#{row.nmPessoa}" />
+                                </p:column>
+                                <p:column
+                                    headerText="#{infoxMessages['certificadoEletronico.dataInicio']}">
+                                    <p:outputLabel value="#{row.dataInicio}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column
+                                    headerText="#{infoxMessages['certificadoEletronico.dataFim']}">
+                                    <p:outputLabel value="#{row.dataFim}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column
+                                    headerText="#{infoxMessages['certificadoEletronico.dataCadastro']}">
+                                    <p:outputLabel value="#{row.dataCadastro}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </p:outputLabel>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:panel>
+                </wi:panel>
+    </infox:tab>
+</infox:tabPanel>
+<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        <p:commandButton value="#{infoxMessages['crud.yes']}" type="button" styleClass="ui-confirmdialog-yes" />
+        <p:commandButton value="#{infoxMessages['crud.no']}" type="button" styleClass="ui-confirmdialog-no"  />
+    </p:confirmDialog>
+</ui:define>
+</ui:composition>

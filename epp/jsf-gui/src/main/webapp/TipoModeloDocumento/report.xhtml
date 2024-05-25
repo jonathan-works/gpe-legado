@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:wi="http://www.itx.com.br/jsf">
+
+	<wi:dataReport 
+         title="#{infoxMessages['tipoModeloDocumento.reportTitle']}"
+         columns="7"
+         widths="2 2 1 1 1 1 1"
+         orientation="landscape" 
+         headerText="#{tipoModeloDocumentoList.criteria}">
+				   
+		<wi:reportColumnHeader
+             title="#{infoxMessages['tipoModeloDocumento.grupoModeloDocumento']}" />
+		<wi:reportColumnHeader
+             title="#{infoxMessages['tipoModeloDocumento.tipoModeloDocumento']}" />
+		<wi:reportColumnHeader
+             title="#{infoxMessages['tipoModeloDocumento.abreviacao']}" />
+		<wi:reportColumnHeader
+             title="#{infoxMessages['field.situacao']}" />
+		<wi:reportColumnHeader
+             title="#{infoxMessages['tipoModeloDocumento.numeracaoAutomatica']}" />
+		<wi:reportColumnHeader
+             title="#{infoxMessages['tipoModeloDocumento.numeroDocumentoInicial']}" />
+		<wi:reportColumnHeader
+             title="#{infoxMessages['tipoModeloDocumento.reiniciaNumeracaoAnual']}" />
+				
+		<ui:repeat
+             var="row"
+             value="#{tipoModeloDocumentoList.list()}">
+			<wi:reportColumn
+                 value="#{row.grupoModeloDocumento}" />
+			<wi:reportColumn
+                 value="#{row.tipoModeloDocumento}" />
+			<wi:reportColumn
+                 value="#{row.abreviacao}" />
+			<wi:reportColumnSituacao
+                 value="#{row.ativo}"
+                 columnAlign="center" />
+			<wi:reportColumnBoolean
+                 value="#{row.numeracaoAutomatica}"
+                 columnAlign="center" />
+			<wi:reportColumn
+                 value="#{row.numeroDocumentoInicial}" 
+                 columnAlign="right" />
+			<wi:reportColumnBoolean
+                 value="#{row.reiniciaNumeracaoAnual}"
+                 columnAlign="center" />
+		</ui:repeat>
+
+	</wi:dataReport>
+	
+</ui:composition>

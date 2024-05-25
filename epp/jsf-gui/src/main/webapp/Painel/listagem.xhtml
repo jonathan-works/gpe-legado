@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:a="http://richfaces.org/a4j"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:i="http://java.sun.com/jsf/composite/infox"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wi="http://www.itx.com.br/jsf"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:rich="http://richfaces.org/rich">
+
+    <p:outputPanel id="painelListagem" rendered="#{consultaProcessoListagem.podeVisualizarProcessos}">
+        <div style="display: inline-block; width: 100%; vertical-align: top;  margin-left: 0.5em;">
+            <p:accordionPanel activeIndex="null">
+
+                <p:tab title="Filtros" titleStyle="background-color: #060; color: white;font-size: initial;">
+                    <h:form style="display: inline">
+                        <div style="display:inline;">
+                            <div style="display:inline;">
+                                <p:outputLabel style="font-weight:bold; padding: 2px" for="nrProc"
+                                               value="Número do Processo:"/>
+                                <p:inputText id="nrProc" label="Número do Processo:"
+                                             value="#{consultaProcessoListagem.numeroProcessoPesquisa}">
+                                </p:inputText></div>
+                            <div style="display:inline;">
+                                <p:outputLabel style="font-weight:bold; padding: 2px" for="dataDe" value="De"/>
+                                <rich:calendar
+                                        id="dataDe"
+                                        value="#{consultaProcessoListagem.dataDePesquisa}"
+                                        enableManualInput="true"
+                                        inputStyle="display:inline-block; "
+                                        direction="auto"
+                                        popup="true"
+                                        inputClass="maskDate input date"
+                                        styleClass="date"
+                                        datePattern="dd/MM/yyyy"
+                                />
+                            </div>
+                            <div style="display:inline;">
+                                <p:outputLabel style="font-weight:bold; padding: 2px" for="dataAte" value="Até"/>
+                                <rich:calendar
+                                        id="dataAte"
+                                        value="#{consultaProcessoListagem.dataAtePesquisa}"
+                                        enableManualInput="true"
+                                        inputStyle="display:inline-block; "
+                                        direction="auto"
+                                        popup="true"
+                                        inputClass="maskDate input date"
+                                        styleClass="date"
+                                        datePattern="dd/MM/yyyy"/>
+                            </div>
+                        </div>
+
+                        <p:commandButton value="Pesquisar" update=":painelListagem"
+                                         action="#{consultaProcessoListagem.pesquisarComFiltro}"
+                                         process="@form"
+                                         onclick="showLoading()" oncomplete="hideLoading();"/>
+                        <p:commandButton value="Limpar" update="@form" process="@this"
+                                         action="#{consultaProcessoListagem.limparFiltros}"/>
+                    </h:form>
+                </p:tab>
+
+            </p:accordionPanel>
+
+
+            <div id="processosListagem">
+                <div class="card">
+                    <h:form id="formListagem">
+                        <p:dataTable var="row" rendered="#{consultaProcessoListagem.podeVisualizarProcessos}"
+                                     value="#{taskBeanLazyDataModel}" rows="10"
+                                     paginator="true" paginatorPosition="bottom"
+                                     binding="#{taskBeanLazyDataModel.dataTable}" lazy="true"
+                                     emptyMessage="#{infoxMessages['list.defaultNoDataLabel']}"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} resultados"
+                                     rowsPerPageTemplate="5,10">
+                            <p:ajax event="page" onstart="infox.showLoading()" oncomplete="infox.hideLoading()"/>
+
+                            <f:facet name="header">
+                                <div style="background-color: #060; color: white;font-size: initial;">
+                                    <span>Processos Abertos</span></div>
+                            </f:facet>
+
+                            <p:columns value="#{consultaProcessoListagem.columns}" var="column">
+
+                                <f:facet name="header">
+
+                                    <ui:fragment rendered="#{column.toolBar}">
+                                        <h:form styleClass="teste">
+                                            <h:graphicImage
+                                                    url="#{layoutController.getResourceUrlByPath('/imagens/multipleImages.png')}"
+                                                    title="#{infoxMessages['processo.caixa.moverTodosProcessos']}"/>
+
+                                            <h:selectBooleanCheckbox
+                                                    onclick="checkAllChildrenBoxes(); enableDisableAssinarButton();"
+                                                    rendered="#{consultaProcessoListagem.showMarcarTodosAssinaveis}"
+                                                    styleClass="checkButtonMarcarTodos">
+                                                <p:ajax execute="@this"
+                                                        listener="#{consultaProcessoListagem.marcarTodosAssinaveis}"/>
+                                            </h:selectBooleanCheckbox>
+
+                                            <h:selectBooleanCheckbox
+                                                    onclick="checkAllChildrenBoxesMovimentarLote(); enableDisableMovimentarLote();"
+                                                    rendered="#{consultaProcessoListagem.showMarcarTodosMovimentarEmLote}"
+                                                    styleClass="checkButtonMarcarTodosMovimentarLote">
+                                                <p:ajax execute="@this"
+                                                        listener="#{consultaProcessoListagem.marcarTodosMovimentar}"/>
+                                            </h:selectBooleanCheckbox>
+
+                                        </h:form>
+
+                                    </ui:fragment>
+                                    <c:if test="#{not column.toolBar}">
+                                        <h:outputText value="#{column.header}" escape="false">
+                                        </h:outputText>
+
+                                    </c:if>
+
+
+                                </f:facet>
+
+                                <ui:fragment id="fragToolBar" rendered="#{column.toolBar}">
+                                    <h:form id="formToolbarProcessos">
+                                        <ui:param name="idProcesso" value="#{row.idProcesso}"/>
+                                        <ui:param name="idTaskInstance" value="#{row.idTaskInstance}"/>
+                                        <ui:param name="owner" value="#{row.assignee}"/>
+                                        <ui:param name="exibirSelecaoAssinaturaLote"
+                                                  value="#{row.exibirSelecaoAssinaturaLote}"/>
+                                        <ui:param name="exibirmovimentarEmLote" value="#{row.exibirmovimentarEmLote}"/>
+                                        <ui:param name="inTabExpedidas"
+                                                  value="#{painelUsuarioController.selectedFluxo.expedida}"/>
+                                        <ui:param name="showMovimentarToolBar"
+                                                  value="#{wi:get(showMovimentarToolBar, true)}"/>
+
+                                        <div style="display: inline;">
+                                            <span title="#{infoxMessages['caixa.moverCaixa']}"> <i
+                                                    class="fa fa-folder-open-o fa-lg"></i></span>
+                                        </div>
+
+                                        <a:commandLink execute="@this" target="#{idProcesso}popUpFluxo"
+                                                       onclick="open('#{pathResolver.contextPath}/Processo/visualizarProcesso.seam?idProcesso=#{idProcesso}&amp;idTaskInstance=#{idTaskInstance}&amp;inTabExpedidas=#{inTabExpedidas}', '#{idProcesso}popUpFluxo', 'fullscreen=1, resizable=yes,scrollbars=1');"
+                                                       title="#{infoxMessages['painel.visualizar.tooltip']}"
+                                        >
+                                            <f:param name="idProcesso" value="#{idProcesso}"/>
+                                            <f:param name="idTaskInstance" value="#{idTaskInstance}"/>
+                                            <i class="fa fa-search-plus fa-lg"></i>
+                                        </a:commandLink>
+
+                                        <a:commandLink execute="@this"
+                                                       rendered="#{empty owner and showMovimentarToolBar and authenticator.perfilTemplateAtualPossuiLocalizacao() and !taskInstanceHome.podeRecuperaProcesso(row)}"
+                                                       target="#{idProcesso}popUpFluxo"
+                                                       render="@form"
+                                                       onclick="open('#{pathResolver.contextPath}/Processo/movimentar.seam?idProcesso=#{idProcesso}&amp;idTaskInstance=#{idTaskInstance}', '#{idProcesso}popUpFluxo', 'fullscreen=1, resizable=yes,scrollbars=1');"
+                                                       title="#{infoxMessages['painel.movimentarUnassigned.tooltip']}"
+                                        >
+                                            <f:param name="idProcesso" value="#{idProcesso}"/>
+                                            <f:param name="idTaskInstance" value="#{idTaskInstance}"/>
+                                            <i class="fa fa-edit fa-lg"/>
+                                        </a:commandLink>
+
+                                        <h:graphicImage
+                                                url="#{layoutController.getResourceUrlByPath('/imagens/mod/edit.png')}"
+                                                title="#{infoxMessages['painel.movimentar.tooltipProblemaLocalizacao']}"
+                                                rendered="#{empty owner and showMovimentarToolBar and not authenticator.perfilTemplateAtualPossuiLocalizacao()  and !taskInstanceHome.podeRecuperaProcesso(row)}"
+                                                style="opacity: 0.4;"/>
+                                        <a:commandLink execute="@this"
+                                                       rendered="#{owner eq authenticator.getUsuarioLogado().login and showMovimentarToolBar and authenticator.perfilTemplateAtualPossuiLocalizacao() and !taskInstanceHome.podeRecuperaProcesso(row)}"
+                                                       target="#{idProcesso}popUpFluxo"
+                                                       onclick="open('#{pathResolver.contextPath}/Processo/movimentar.seam?idProcesso=#{idProcesso}&amp;idTaskInstance=#{idTaskInstance}', '#{idProcesso}popUpFluxo', 'fullscreen=1, resizable=yes,scrollbars=1');"
+                                                       title="#{infoxMessages['painel.movimentarUnassigned.tooltip']}"
+                                        >
+                                            <f:param name="idProcesso" value="#{idProcesso}"/>
+                                            <f:param name="idTaskInstance" value="#{idTaskInstance}"/>
+                                            <i class="fa fa-sign-in fa-lg"/>
+                                        </a:commandLink>
+
+
+                                        <i:icon value="fa-sign-in fa-lg"
+                                                rendered="#{owner eq authenticator.getUsuarioLogado().login and showMovimentarToolBar and not authenticator.perfilTemplateAtualPossuiLocalizacao() and !taskInstanceHome.podeRecuperaProcesso(row)}"
+                                        />
+                                        <p:commandLink
+                                                action="#{painelUsuarioController.carregarDocumentosParaAssinar(row)}"
+                                                rendered="#{row.hasDocumentoParaAssinar and !taskInstanceHome.podeRecuperaProcesso(row)}"
+                                                process="@this"
+                                                partialSubmit="true"
+                                                update="@(.listaDocsParaAssinarPanelContainer)"
+                                                onclick="showLoading()"
+                                                style="opacity: 0.4; color: black;"
+                                                oncomplete="hideLoading(); #{rich:component('listaDocsParaAssinarPanel')}.show();"
+                                        >
+                                            <i:icon value="download fa-lg"/>
+                                        </p:commandLink>
+
+                                        <div style="display: inline;">
+                                    <span title="Processo bloqueado pelo servidor #{row.nomeUsuarioTarefa}">
+                                        <i:icon rendered="#{(owner ne authenticator.getUsuarioLogado().login and not empty owner and not authenticator.isUsuarioAtualResponsavel()) and showMovimentarToolBar}"
+                                                value="users fa-lg"></i:icon></span>
+                                        </div>
+
+                                        <a:commandLink
+                                                action="#{painelUsuarioController.liberarTarefa(row)}"
+                                                execute="@this" render="baseBody, pageBodyDialogMessage"
+                                                onclick="return confirm(\'#{infoxMessages['movimentar.confirmLiberarTarefa']}\');"
+                                                limitRender="true"
+                                                title="#{infoxMessages['painel.liberarTarefa.tooltip']}"
+                                                rendered="#{(owner ne authenticator.getUsuarioLogado().login and not empty owner and authenticator.isUsuarioAtualResponsavel()) and !taskInstanceHome.podeRecuperaProcesso(row)}">
+                                            <div style="display: inline;">
+                                        <span title="#{infoxMessages['painel.list.liberarTarefaServidor']} #{row.nomeUsuarioTarefa}">
+                                            <i:icon value="users fa-lg"></i:icon></span>
+                                            </div>
+                                        </a:commandLink>
+
+                                        <a:commandLink
+                                                action="#{taskInstanceHome.recuperarProcesso(row)}"
+                                                execute="@this" render="baseBody, pageBodyDialogMessage"
+                                                limitRender="true"
+                                                rendered="#{taskInstanceHome.podeRecuperaProcesso(row)}"
+                                                update="@form"
+                                                onclick="showLoading()" oncomplete="hideLoading();"
+                                                title="#{infoxMessages['painel.recuperarProcesso.tooltip']}">
+                                            <div style="display: inline;">
+                                        <span title="#{infoxMessages['painel.list.recuperarProcesso']}">
+                                            <i:icon value="fa-backward fa-lg"></i:icon></span>
+                                            </div>
+                                        </a:commandLink>
+
+                                        <p:column id="checkboxColumns">
+                                            <p:selectBooleanCheckbox value="#{row.selecaoAssinaturaLote}"
+                                                                     title="Assinar tarefa"
+                                                                     rendered="#{row.selecaoAssinaturaLote and !taskInstanceHome.podeRecuperaProcesso(row)}"
+                                            >
+                                                <p:ajax execute="@this"/>
+                                            </p:selectBooleanCheckbox>
+                                        </p:column>
+
+
+                                        <p:column id="checkboxColumnMovimentarLotes">
+                                            <p:selectBooleanCheckbox value="#{row.selecaoMovimentarEmLote}"
+                                                                     title="Movimentar tarefa"
+                                                                     rendered="#{exibirmovimentarEmLote and !taskInstanceHome.podeRecuperaProcesso(row) and (empty owner and authenticator.perfilTemplateAtualPossuiLocalizacao())}"
+                                            >
+                                                <p:ajax execute="@this"
+                                                        listener="#{consultaProcessoListagem.podeVisualizarTransitions}"/>
+                                            </p:selectBooleanCheckbox>
+                                        </p:column>
+
+                                    </h:form>
+                                </ui:fragment>
+                                <c:if test="#{not column.toolBar}">
+                                    <h:outputText
+                                            value="#{consultaProcessoListagem.getVariavelProcesso(row.idProcesso, column.value, row.idTaskInstance).valor}"
+                                            escape="false"></h:outputText>
+                                </c:if>
+                            </p:columns>
+
+                        </p:dataTable>
+                    </h:form>
+
+                    <h:form id="formButtons">
+
+
+                        <p:commandButton styleClass="buttons"
+                                         id="callAssinarDocumentosEmLotePainel" value="Assinar"
+                                         widgetVar="callAssinarDocumentosEmLotePainelWV"
+                                         actionListener="#{consultaProcessoListagem.marcarAssinaveisNaoAssinaveis()}"
+                                         execute="@form painelProcessos" onclick="infox.showLoading();"
+                                         oncomplete="#{rich:component('assinarDocumentosPopUpPanel')}.show();infox.hideLoading();"
+                                         update="@this "/>
+
+                        <h:selectOneMenu id="transitions" value="#{consultaProcessoListagem.nome}"
+                                         disabled="#{empty consultaProcessoListagem.transitionsSelectItens and !consultaProcessoListagem.podeVisualizarTransitions()}">
+                            <f:selectItems
+                                    value="#{consultaProcessoListagem.transitionsSelectItens}"/>
+                        </h:selectOneMenu>
+
+
+                        <p:commandButton styleClass="buttons"
+                                         id="callMovimentarProcessosEmLotePainel" value="Movimentar"
+                                         widgetVar="callMovimentarProcessosEmLotePainel"
+                                         actionListener="#{consultaProcessoListagem.movimentarEmLote()}"
+                                         execute="@form painelListagem" onclick="infox.showLoading();"
+                                         oncomplete="infox.hideLoading();"
+                                         update="@this"/>
+
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </p:outputPanel>
+
+    <script>
+        function checkAllChildrenBoxes() {
+            $('.checkButtonDocumento').prop('checked', $('.checkButtonMarcarTodos').prop('checked'));
+        }
+
+        function desmarcarMarcarTodos() {
+            $('.checkButtonMarcarTodos').prop('checked', false);
+        }
+
+        function checkAllChildrenBoxesMovimentarLote() {
+            $('.checkButtonMovimentarLote').prop('checked', $('.checkButtonMarcarTodosMovimentarLote').prop('checked'));
+        }
+
+        function desmarcarMarcarTodosMovimentarLote() {
+            $('.checkButtonMarcarTodosMovimentarLote').prop('checked', false);
+        }
+
+
+        function updateMarcarTodos(checkBox) {
+            if (!checkBox.prop('checked')) {
+                $('.checkButtonMarcarTodos').prop('checked', false);
+            } else {
+                $('.checkButtonMarcarTodos').prop('checked', isTodosCheckBoxesMarcados());
+            }
+        }
+
+        function updateMarcarTodosMovimentarLote(checkBox) {
+
+            if (!checkBox.prop('checked')) {
+                $('.checkButtonMarcarTodosMovimentarLote').prop('checked', false);
+            } else {
+                $('.checkButtonMarcarTodosMovimentarLote').prop('checked', isTodosCheckBoxesMarcadosMovimentarLote());
+            }
+        }
+
+        function isTodosCheckBoxesMarcadosMovimentarLote() {
+            checkButtonsArray = $('.checkButtonMovimentarLote');
+
+            if (!checkButtonsArray) {
+                return false;
+            }
+
+            for (var i = 0; i &lt; checkButtonsArray.size(); i++) {
+                if (!$(checkButtonsArray[i]).prop('checked'))
+                    return false;
+            }
+
+            return true;
+        }
+
+
+        function isTodosCheckBoxesMarcados() {
+            checkButtonsArray = $('.checkButtonDocumento');
+            if (!checkButtonsArray)
+                return false;
+
+            for (var i = 0; i &lt; checkButtonsArray.size(); i++) {
+                if (!$(checkButtonsArray[i]).prop('checked'))
+                    return false;
+            }
+            return true;
+        }
+
+        function enableDisableAssinarButton() {
+            checkButtonsArray = $('.checkButtonDocumento');
+            if (!checkButtonsArray) {
+                PF('callAssinarDocumentosEmLotePainelWV').disable();
+                return;
+            }
+
+            for (var i = 0; i &lt; checkButtonsArray.size(); i++) {
+                if ($(checkButtonsArray[i]).prop('checked')) {
+                    PF('callAssinarDocumentosEmLotePainelWV').enable();
+                    return;
+                }
+            }
+            PF('callAssinarDocumentosEmLotePainelWV').disable();
+        }
+
+        function enableDisableMovimentarLote() {
+            checkButtonsArray = $('.checkButtonMovimentarLote');
+
+            if (!checkButtonsArray) {
+                PF('callMovimentarProcessosEmLotePainel').disable();
+                return;
+            }
+
+            for (var i = 0; i &lt; checkButtonsArray.size(); i++) {
+                if ($(checkButtonsArray[i]).prop('checked')) {
+                    PF('callMovimentarProcessosEmLotePainel').enable();
+                    return;
+                }
+            }
+            PF('callMovimentarProcessosEmLotePainel').disable();
+
+        }
+    </script>
+
+</ui:composition>

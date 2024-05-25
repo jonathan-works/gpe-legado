@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:a="http://richfaces.org/a4j"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:rich="http://richfaces.org/rich"
+        xmlns:s="http://jboss.org/schema/seam/taglib"
+        xmlns:wi="http://www.itx.com.br/jsf"
+        xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <style>
+            .ui-panel .ui-panel-content {
+                border: 0;
+                background: 0;
+                padding: 0.5em 1em;
+                display: inline;
+            }
+            .ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer{
+                padding: 0px;
+            }
+
+            .ui-accordion .ui-accordion-content {
+                overflow: visible !important;
+            }
+            .ui-treenode-label .ui-corner-all .ui-state-highlight{
+                color: white;
+            }
+
+
+
+        </style>
+    </h:head>
+
+    <script>
+        $(document).ready(function () {
+
+            if (#{not empty painelUsuarioController.nomeTarefaAberta()}) {
+                var ss = '#selectTarefaTree';
+
+                $(ss).select();
+                $('span:contains(#{painelUsuarioController.nomeTarefaAberta()})').parent().addClass('rf-trn-sel');
+
+            }
+
+
+        });
+    </script>
+
+
+    <p:panel header="${infoxMessages['painel.tarefas']} (${tarefasTree.nomeFluxo})" id="TarefasTree2" style="text-transform: uppercase;
+			font-weight: bold;width: auto;">
+
+        <h:outputText rendered="#{tarefasTree.naoPossuiRaiz}"
+                      value="#{infoxMessages['process.noAvailableProcessesFluxMain']}"/>
+        <p:tree selectionMode="single" id="selectTarefaTree2" value="#{tarefasTree.raiz}" var="node"
+                style="border: none; overflow-y: hidden !important;  overflow-x: hidden !important;width: auto;"
+                selection="#{tarefasTree.selectedNode}">
+            <p:ajax event="select" process="@this" listener="#{tarefasTree.onNodeSelect}" onstart="infox.showLoading();" oncomplete="infox.hideLoading();"/>
+            <p:ajax event="unselect" process="@this" listener="#{tarefasTree.onNodeUnselect}" onstart="infox.showLoading();" oncomplete="infox.hideLoading();"/>
+            <p:treeNode styleClass="ttt" expandedIcon="fa fa-folder-open-o" collapsedIcon="fa fa-folder-o">
+                <div style="color: #{tarefasTree.getTextColor(node)}; background-color: #{tarefasTree.getBackgroundColor(node)}">
+                    <h:outputText value="#{node}"/>
+                </div>
+            </p:treeNode>
+        </p:tree>
+
+    </p:panel>
+
+
+
+    <script type="text/javascript">
+    </script>
+</ui:composition>

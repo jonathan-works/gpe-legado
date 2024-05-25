@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:wi="http://www.itx.com.br/jsf"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:i="http://java.sun.com/jsf/composite/infox"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/xhtml/templates/core/defaultTemplate.xhtml"
+>
+<ui:define name="title">#{infoxMessages['relQuantitativoProcessosAnalitico.titlePage']}</ui:define>
+<ui:define name="body">
+<style type="text/css">
+.ui-selectmanymenu {
+    width: 350px;
+}
+</style>
+
+<fieldset style="margin-top: 40px;">
+    <legend>
+        #{infoxMessages['relQuantitativoProcessos.filtros']}
+    </legend>
+    <h:form id="relatorioForm">
+        <div>
+            <wi:field
+                id="assunto"
+                label="#{infoxMessages['relQuantitativoProcessos.assunto']}"
+                required="true"
+            >
+                <p:selectManyMenu
+                    id="assuntoInput"
+                    filterMatchMode="contains"
+                    showCheckbox="true"
+                    required="true"
+                    filter="true"
+                    value="#{relatorioProcessosView.listaAssuntoSelecionado}"
+                >
+                    <f:selectItems
+                        value="#{relatorioProcessosView.listaAssunto}"
+                    />
+                </p:selectManyMenu>
+            </wi:field>
+
+            <wi:field
+                id="status"
+                label="#{infoxMessages['relQuantitativoProcessos.status']}"
+            >
+                <p:selectManyMenu
+                    id="statusInput"
+                    filterMatchMode="contains"
+                    showCheckbox="true"
+                    filter="true"
+                    value="#{relatorioProcessosView.listaStatusSelecionado}"
+                    onchange="showLoading()"
+                >
+                    <p:ajax
+                        event="change"
+                        listener="#{relatorioProcessosView.onChangeListaStatus}"
+                        process="@this"
+                        partialSubmit="@this"
+                        update="@(.periodoArquivamentoContainer)"
+                        oncomplete="hideLoading()"
+                    />
+                    <f:selectItems
+                        value="#{relatorioProcessosView.listaStatus}"
+                        var="ls"
+                        itemValue="#{ls.name()}"
+                        itemLabel="#{ls.label}"
+                    />
+                </p:selectManyMenu>
+            </wi:field>
+
+            <wi:inputPeriodo
+                id="periodo"
+                label="#{infoxMessages['relQuantitativoProcessosAnalitico.dataAbertura']}"
+                help="#{infoxMessages['relQuantitativoProcessosAnalitico.dataAbertura.help']}"
+                valueFrom="#{relatorioProcessosView.dataInicio}"
+                valueTo="#{relatorioProcessosView.dataFim}"
+            />
+
+            <wi:inputPeriodo
+                id="periodoMovimentacao"
+                label="#{infoxMessages['relQuantitativoProcessosAnalitico.dataMovimentacao']}"
+                help="#{infoxMessages['relQuantitativoProcessosAnalitico.dataMovimentacao.help']}"
+                valueFrom="#{relatorioProcessosView.dataMovimentacaoInicio}"
+                valueTo="#{relatorioProcessosView.dataMovimentacaoFim}"
+            />
+
+            <p:outputPanel
+                styleClass="periodoArquivamentoContainer"
+            >
+            <wi:inputPeriodo
+                id="periodoArquivamento"
+                label="#{infoxMessages['relQuantitativoProcessosAnalitico.dataArquivamento']}"
+                help="#{infoxMessages['relQuantitativoProcessosAnalitico.dataArquivamento.help']}"
+                disabled="#{not relatorioProcessosView.arquivadoSelecionado}"
+                requiredFrom="#{relatorioProcessosView.arquivadoSelecionado}"
+                requiredTo="false"
+                valueFrom="#{relatorioProcessosView.dataArquivamentoInicio}"
+                valueTo="#{relatorioProcessosView.dataArquivamentoFim}"
+            />
+            </p:outputPanel>
+        </div>
+
+        <div>
+            <p:commandButton
+                id="btAbrirPDF"
+                process="@form"
+                update="@form :pageBodyDialogMessage"
+                onclick="showLoading()"
+                oncomplete="hideLoading(); if(args &amp;&amp; !args.validationFailed){window.open('analiticoReport.seam', '_blank')}"
+                action="#{relatorioProcessosView.prepararAbrirRelatorioAnalitico}"
+                value="#{infoxMessages['relQuantitativoProcessos.gerarPDF']}"
+            />
+
+            <p:commandButton
+                id="btAbrirExcel"
+                process="@form"
+                update="@form :pageBodyDialogMessage"
+                onclick="showLoading()"
+                oncomplete="hideLoading(); if(args &amp;&amp; !args.validationFailed){document.getElementById('relatorioForm:gerarExcel').click();}"
+                value="#{infoxMessages['relQuantitativoProcessos.gerarExcel']}"
+            />
+
+            <h:commandLink id="gerarExcel"
+                action="#{relatorioProcessosView.gerarExcelAnalitico}"
+                style="display: none;"
+            />
+        </div>
+    </h:form>
+</fieldset>
+</ui:define>
+
+</ui:composition>

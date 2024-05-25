@@ -1,0 +1,119 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:wi="http://www.itx.com.br/jsf"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:rich="http://richfaces.org/rich">
+
+    <s:div id="includeParticipanteDiv" styleClass="padding-top-5">
+
+        <wi:dataForm formId="participanteForm" collapsiblePanel="true"
+            rendered="#{participantesProcessoController.podeAdicionarAlgumTipoDeParte()}"
+            formTitle="Incluir Participante" expandedPanelForm="false">
+
+            <p:outputPanel id="novoParticipantePanel"
+                    styleClass="novoParticipantePanel">
+                <wi:selectOneRadioEnum id="radioTipoPessoa"
+                    label="#{infoxMessages['pessoa.tipoPessoa']}" required="true"
+                    items="#{participantesProcessoController.tipoPessoaValues}"
+                    value="#{participantesProcessoController.tipoPessoa}"
+                    onchangue="showLoading()"
+                    rendered="#{participantesProcessoController.podeAdicionarAmbosTiposDeParte()}">
+                    <p:ajax event="change" update="@(.loadedByParticipanteContainer)" oncomplete="hideLoading()"
+                        listener="#{participantesProcessoController.onChangeTipoParte}"
+                        partialSubmit="true" process="@this"/>
+                </wi:selectOneRadioEnum>
+
+                <p:outputPanel styleClass="loadedByParticipanteContainer">
+                <p:outputPanel id="loadedByParticipante"
+                        rendered="#{not empty participantesProcessoController.tipoPessoa}">
+                        
+                    <wi:anonimaFields
+                        identificador="participanteAnonimo"
+                        rendered="#{participantesProcessoController.tipoPessoa eq 'A'}"
+                        view="#{participantesProcessoController}"
+                        viewObject="#{participantesProcessoController.participanteProcessoVO.anonimoVO}"
+                    />
+
+                    <wi:servidorContribuinteFields
+                        identificador="servContrParticipante"
+                        rendered="#{participantesProcessoController.tipoPessoa eq 'F'}"
+                        view="#{participantesProcessoController}"
+                        viewObject="#{participantesProcessoController.participanteProcessoVO.servidorContribuinteVO}"
+                        listDialog="servidorContribuinteFormDialog"
+                        searchObject="#{participantesProcessoController.pesquisaParticipanteVO}"
+                        codEstadoList="#{participantesProcessoController.getListCodEstado()}">
+                    </wi:servidorContribuinteFields>
+
+                    <wi:empresaFields
+                        identificador="empresaParticipante"
+                        rendered="#{participantesProcessoController.tipoPessoa eq 'J'}"
+                        view="#{participantesProcessoController}"
+                        viewObject="#{participantesProcessoController.participanteProcessoVO.empresaVO}"
+                        listDialog="empresaFormDialog"
+                        searchObject="#{participantesProcessoController.pesquisaParticipanteVO}"
+                        codEstadoList="#{participantesProcessoController.getListCodEstado()}">
+                    </wi:empresaFields>
+                </p:outputPanel>
+                </p:outputPanel>
+
+
+
+                <p:outputPanel id="partePanel">
+                    <fieldset id="#{identificador}ServidorFieldset" style="margin-top: 1em;">
+                        <legend class="name">#{infoxMessages['participanteProcesso.dadosParticipante']}</legend>
+                    <wi:selectOneMenuEntity id="tipoPartes"
+                        items="#{participantesProcessoController.tipoPartes}"
+                        value="#{participantesProcessoController.tipoParte}"
+                        label="#{infoxMessages['participanteProcesso.tipoParticipante']}"
+                        required="true" showLabelSelecione="true" />
+
+                    <wi:tree id="participanteSuperior"
+                        label="#{infoxMessages['participanteProcesso.superior']}"
+                        assignTo="participantesProcessoController.participantePai"
+                        tree="#{participanteProcessoTree}" />
+
+                    <wi:inputDate id="dataInicio"
+                        value="#{participantesProcessoController.participanteProcessoVO.dataInicio}"
+                        label="#{infoxMessages['participanteProcesso.dataInicioParticipacao']}"
+                        required="false" />
+
+                    <wi:inputDate id="dataFim"
+                        value="#{participantesProcessoController.participanteProcessoVO.dataFim}"
+                        label="#{infoxMessages['participanteProcesso.dataFimParticipacao']}"
+                        required="false"/>
+                    </fieldset>
+                </p:outputPanel>
+            </p:outputPanel>
+
+            <ui:define name="buttons">
+                <wi:commandButton id="saveButton"
+                    action="#{participantesProcessoController.includeParticipanteProcesso()}"
+                    reRender="parteProcessoListDiv, pessoasListDiv, storeDiv, pageBodyDialogMessage novoParticipantePanel"
+                    value="#{infoxMessages['crud.persist']}" />
+            </ui:define>
+
+        </wi:dataForm>
+
+        <h:form id="servidorContribuinteFormDialog"
+                styleClass="servidorContribuinteFormDialog">
+            <wi:servidorContribuinteDialog id="servidorContribuinteDialog"
+                            view="#{participantesProcessoController}"
+                            tipoParticipante="#{participantesProcessoController.pesquisaParticipanteVO.tipoParticipante}"
+                            paginaPrincipal="novoParticipantePanel"
+                            list="#{participantesProcessoController.servidorContribuinteList}"/>
+        </h:form>
+
+        <h:form id="empresaFormDialog"
+                styleClass="empresaFormDialog">
+            <wi:empresaDialog id="empresaDialog"
+                              view="#{participantesProcessoController}"
+                              paginaPrincipal="novoParticipantePanel"
+                              list="#{participantesProcessoController.empresaList}"/>
+        </h:form>
+    </s:div>
+
+</ui:composition>
