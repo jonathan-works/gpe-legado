@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>Classe Java de anonymous complex type.
  * 
- * <p>O seguinte fragmento do esquema especifica o conteúdo esperado contido dentro desta classe.
+ * <p>O seguinte fragmento do esquema especifica o conteï¿½do esperado contido dentro desta classe.
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -38,7 +38,7 @@ public class WSControleAcessoGPEGETMENUGXUI {
     protected String jsonin;
 
     /**
-     * Obtém o valor da propriedade jsonin.
+     * Obtï¿½m o valor da propriedade jsonin.
      * 
      * @return
      *     possible object is

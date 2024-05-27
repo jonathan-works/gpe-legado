@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>Classe Java de anonymous complex type.
  * 
- * <p>O seguinte fragmento do esquema especifica o conteúdo esperado contido dentro desta classe.
+ * <p>O seguinte fragmento do esquema especifica o conteï¿½do esperado contido dentro desta classe.
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -46,7 +46,7 @@ public class WSControleAcessoGPEVALIDARLOGINACESSOResponse {
     protected ArrayOfSDTPerfilUsuarioGPE sdtperfilusuariogpe;
 
     /**
-     * Obtém o valor da propriedade messages.
+     * Obtï¿½m o valor da propriedade messages.
      * 
      * @return
      *     possible object is
@@ -70,7 +70,7 @@ public class WSControleAcessoGPEVALIDARLOGINACESSOResponse {
     }
 
     /**
-     * Obtém o valor da propriedade sdtusuariogpe.
+     * Obtï¿½m o valor da propriedade sdtusuariogpe.
      * 
      * @return
      *     possible object is
@@ -94,7 +94,7 @@ public class WSControleAcessoGPEVALIDARLOGINACESSOResponse {
     }
 
     /**
-     * Obtém o valor da propriedade sdtperfilusuariogpe.
+     * Obtï¿½m o valor da propriedade sdtperfilusuariogpe.
      * 
      * @return
      *     possible object is

@@ -176,7 +176,7 @@
 			<element name="WSControleAcessoGPE.VALIDARLOGINACESSOResponse">
 				<complexType>
 					<sequence>
-						<element minOccurs="1" maxOccurs="1" name="Messages" type="tns1:Messages"/>
+						<element minOccurs="0" maxOccurs="unbounded" name="Messages" type="tns1:Messages"/>
 						<element minOccurs="1" maxOccurs="1" name="Sdtusuariogpe" type="tns:SDTUsuarioGPE"/>
 						<element minOccurs="1" maxOccurs="1" name="Sdtperfilusuariogpe" type="tns:ArrayOfSDTPerfilUsuarioGPE"/>
 					</sequence>

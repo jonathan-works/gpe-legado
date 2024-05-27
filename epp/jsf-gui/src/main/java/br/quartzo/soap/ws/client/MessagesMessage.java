@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>Classe Java de Messages.Message complex type.
  * 
- * <p>O seguinte fragmento do esquema especifica o conteúdo esperado contido dentro desta classe.
+ * <p>O seguinte fragmento do esquema especifica o conteï¿½do esperado contido dentro desta classe.
  * 
  * <pre>
  * &lt;complexType name="Messages.Message"&gt;
@@ -42,7 +42,7 @@ public class MessagesMessage {
     protected String description;
 
     /**
-     * Obtém o valor da propriedade id.
+     * Obtï¿½m o valor da propriedade id.
      * 
      * @return
      *     possible object is
@@ -66,7 +66,7 @@ public class MessagesMessage {
     }
 
     /**
-     * Obtém o valor da propriedade type.
+     * Obtï¿½m o valor da propriedade type.
      * 
      */
     public byte getType() {
@@ -82,7 +82,7 @@ public class MessagesMessage {
     }
 
     /**
-     * Obtém o valor da propriedade description.
+     * Obtï¿½m o valor da propriedade description.
      * 
      * @return
      *     possible object is

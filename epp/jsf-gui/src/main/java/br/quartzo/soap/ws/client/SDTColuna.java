@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>Classe Java de SDTColuna complex type.
  * 
- * <p>O seguinte fragmento do esquema especifica o conteúdo esperado contido dentro desta classe.
+ * <p>O seguinte fragmento do esquema especifica o conteï¿½do esperado contido dentro desta classe.
  * 
  * <pre>
  * &lt;complexType name="SDTColuna"&gt;
@@ -39,7 +39,7 @@ public class SDTColuna {
     protected String valor;
 
     /**
-     * Obtém o valor da propriedade nome.
+     * Obtï¿½m o valor da propriedade nome.
      * 
      * @return
      *     possible object is
@@ -63,7 +63,7 @@ public class SDTColuna {
     }
 
     /**
-     * Obtém o valor da propriedade valor.
+     * Obtï¿½m o valor da propriedade valor.
      * 
      * @return
      *     possible object is

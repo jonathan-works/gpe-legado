@@ -12,7 +12,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 /**
  * <p>Classe Java de SDTUsuarioGPE complex type.
  * 
- * <p>O seguinte fragmento do esquema especifica o conteúdo esperado contido dentro desta classe.
+ * <p>O seguinte fragmento do esquema especifica o conteï¿½do esperado contido dentro desta classe.
  * 
  * <pre>
  * &lt;complexType name="SDTUsuarioGPE"&gt;
@@ -48,7 +48,7 @@ public class SDTUsuarioGPE {
     protected XMLGregorianCalendar dataNasc;
 
     /**
-     * Obtém o valor da propriedade nome.
+     * Obtï¿½m o valor da propriedade nome.
      * 
      * @return
      *     possible object is
@@ -72,7 +72,7 @@ public class SDTUsuarioGPE {
     }
 
     /**
-     * Obtém o valor da propriedade email.
+     * Obtï¿½m o valor da propriedade email.
      * 
      * @return
      *     possible object is
@@ -96,7 +96,7 @@ public class SDTUsuarioGPE {
     }
 
     /**
-     * Obtém o valor da propriedade cpf.
+     * Obtï¿½m o valor da propriedade cpf.
      * 
      * @return
      *     possible object is
@@ -120,7 +120,7 @@ public class SDTUsuarioGPE {
     }
 
     /**
-     * Obtém o valor da propriedade dataNasc.
+     * Obtï¿½m o valor da propriedade dataNasc.
      * 
      * @return
      *     possible object is

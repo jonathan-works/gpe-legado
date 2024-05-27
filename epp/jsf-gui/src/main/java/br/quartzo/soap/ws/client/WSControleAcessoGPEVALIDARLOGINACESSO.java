@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>Classe Java de anonymous complex type.
  * 
- * <p>O seguinte fragmento do esquema especifica o conteúdo esperado contido dentro desta classe.
+ * <p>O seguinte fragmento do esquema especifica o conteï¿½do esperado contido dentro desta classe.
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -50,7 +50,7 @@ public class WSControleAcessoGPEVALIDARLOGINACESSO {
     protected String chave;
 
     /**
-     * Obtém o valor da propriedade sisid.
+     * Obtï¿½m o valor da propriedade sisid.
      * 
      */
     public int getSisid() {
@@ -66,7 +66,7 @@ public class WSControleAcessoGPEVALIDARLOGINACESSO {
     }
 
     /**
-     * Obtém o valor da propriedade usulogin.
+     * Obtï¿½m o valor da propriedade usulogin.
      * 
      * @return
      *     possible object is
@@ -90,7 +90,7 @@ public class WSControleAcessoGPEVALIDARLOGINACESSO {
     }
 
     /**
-     * Obtém o valor da propriedade ususenha.
+     * Obtï¿½m o valor da propriedade ususenha.
      * 
      * @return
      *     possible object is
@@ -114,7 +114,7 @@ public class WSControleAcessoGPEVALIDARLOGINACESSO {
     }
 
     /**
-     * Obtém o valor da propriedade chave.
+     * Obtï¿½m o valor da propriedade chave.
      * 
      * @return
      *     possible object is
