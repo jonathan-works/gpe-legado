@@ -296,32 +296,32 @@ public class ParticipantesProcessoController extends AbstractParticipantesContro
         }
     }
 
-    public void buscarServidorContribuinte() {
-        if (StringUtil.isEmpty(pesquisaParticipanteVO.getCpf())
-                && StringUtil.isEmpty(pesquisaParticipanteVO.getNomeCompleto())
-                && StringUtil.isEmpty(pesquisaParticipanteVO.getMatricula())) {
-            FacesMessages.instance().add("Por favor, preencha pelo menos um campo de busca.");
-        } else {
-            servidorContribuinteList = servidorContribuinteSearch.pesquisaServidorContribuinte(pesquisaParticipanteVO);
-
-            if(servidorContribuinteList != null && servidorContribuinteList.size() > 0) {
-                if(servidorContribuinteList.size() == 1) {
-                    participanteProcessoVO.setServidorContribuinteVO(servidorContribuinteList.get(0));
-                    searchByCpf();
-                    servidorContribuinteList = null;
-                } else {
-                    JsfUtil.instance().execute("PF('servidorContribuinteDialog').show();");
-                }
-            } else if(pesquisaParticipanteVO.getTipoParticipante().equals(TipoParticipanteEnum.CO)) {
-                participanteProcessoVO.setServidorContribuinteVO(new ServidorContribuinteVO());
-                participanteProcessoVO.getServidorContribuinteVO().setTipoParticipante(pesquisaParticipanteVO.getTipoParticipante());
-                participanteProcessoVO.getServidorContribuinteVO().setCpf(pesquisaParticipanteVO.getCpf());
-                FacesMessages.instance().add("Contribuinte não encontrado. Preencha os dados para adicionar um novo.");
-            } else {
-                FacesMessages.instance().add("Nenhum registro foi encontrado com os dados da busca.");
-            }
-        }
-    }
+//    public void buscarServidorContribuinte() {
+//        if (StringUtil.isEmpty(pesquisaParticipanteVO.getCpf())
+//                && StringUtil.isEmpty(pesquisaParticipanteVO.getNomeCompleto())
+//                && StringUtil.isEmpty(pesquisaParticipanteVO.getMatricula())) {
+//            FacesMessages.instance().add("Por favor, preencha pelo menos um campo de busca.");
+//        } else {
+//            servidorContribuinteList = servidorContribuinteSearch.pesquisaServidorContribuinte(pesquisaParticipanteVO);
+//
+//            if(servidorContribuinteList != null && servidorContribuinteList.size() > 0) {
+//                if(servidorContribuinteList.size() == 1) {
+//                    participanteProcessoVO.setServidorContribuinteVO(servidorContribuinteList.get(0));
+//                    searchByCpf();
+//                    servidorContribuinteList = null;
+//                } else {
+//                    JsfUtil.instance().execute("PF('servidorContribuinteDialog').show();");
+//                }
+//            } else if(pesquisaParticipanteVO.getTipoParticipante().equals(TipoParticipanteEnum.CO)) {
+//                participanteProcessoVO.setServidorContribuinteVO(new ServidorContribuinteVO());
+//                participanteProcessoVO.getServidorContribuinteVO().setTipoParticipante(pesquisaParticipanteVO.getTipoParticipante());
+//                participanteProcessoVO.getServidorContribuinteVO().setCpf(pesquisaParticipanteVO.getCpf());
+//                FacesMessages.instance().add("Contribuinte não encontrado. Preencha os dados para adicionar um novo.");
+//            } else {
+//                FacesMessages.instance().add("Nenhum registro foi encontrado com os dados da busca.");
+//            }
+//        }
+//    }
 
     public void selecionarServidorContribuinte(ServidorContribuinteVO row) {
         participanteProcessoVO.setServidorContribuinteVO(row);

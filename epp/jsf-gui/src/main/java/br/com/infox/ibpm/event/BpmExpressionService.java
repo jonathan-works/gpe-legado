@@ -735,12 +735,12 @@ public class BpmExpressionService {
         return modeloDocumentoManager.resolverModeloComContexto(getIdProcessoAtual(), codigoModelo, contexto);
     }
 
-    @External(expressionType = ExpressionType.GERAL, tooltip = "process.events.expression.getListaParticipantesProcessoByTipoParte.tooltip", example = "#{bpmExpressionService.getListaParticipantesProcessoByTipoParte(data)}",
-            value = {@Parameter(defaultValue = "codTipoParte", label = "process.events.expression.getListaParticipantesProcessoByTipoParte.codTipoParte.param.label",
-                    tooltip = "process.events.expression.getListaParticipantesProcessoByTipoParte.codTipoParte.param.tooltip", selectable = true)})
-    public List<ParticipanteProcessoLogLabDTO> getListaParticipantesProcessoByTipoParte(String codTipoParte){
-        return participanteProcessoLoglabSearch.getListaParticipanteProcessoLoglabDTOByCodTipoParteAndIdProcesso(getIdProcessoAtual(), codTipoParte);
-    }
+//    @External(expressionType = ExpressionType.GERAL, tooltip = "process.events.expression.getListaParticipantesProcessoByTipoParte.tooltip", example = "#{bpmExpressionService.getListaParticipantesProcessoByTipoParte(data)}",
+//            value = {@Parameter(defaultValue = "codTipoParte", label = "process.events.expression.getListaParticipantesProcessoByTipoParte.codTipoParte.param.label",
+//                    tooltip = "process.events.expression.getListaParticipantesProcessoByTipoParte.codTipoParte.param.tooltip", selectable = true)})
+//    public List<ParticipanteProcessoLogLabDTO> getListaParticipantesProcessoByTipoParte(String codTipoParte){
+//        return participanteProcessoLoglabSearch.getListaParticipanteProcessoLoglabDTOByCodTipoParteAndIdProcesso(getIdProcessoAtual(), codTipoParte);
+//    }
 
     @External(expressionType = ExpressionType.GERAL, tooltip = "process.events.expression.formataData.tooltip", example = "#{bpmExpressionService.formataDataComFormato(data, 'dd/MM/yyyy')}",
             value = {@Parameter(defaultValue = "data", label = "process.events.expression.formataData.param.label",

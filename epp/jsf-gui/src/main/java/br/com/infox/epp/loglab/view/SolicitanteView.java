@@ -54,30 +54,30 @@ public class SolicitanteView implements Serializable {
         limpar();
     }
 
-    public void consultarTurmalina() {
-        if (numeroCpf != null) {
-            contribuinteSolicitanteList = contribuinteSolicitanteSearch.getDadosContribuinteSolicitante(numeroCpf, numeroMatricula, ContribuinteEnum.SO);
-            JsfUtil.instance().execute("PF('listaContribuintesDialog').show();");
-        }
-    }
+//    public void consultarTurmalina() {
+//        if (numeroCpf != null) {
+//            contribuinteSolicitanteList = contribuinteSolicitanteSearch.getDadosContribuinteSolicitante(numeroCpf, numeroMatricula, ContribuinteEnum.SO);
+//            JsfUtil.instance().execute("PF('listaContribuintesDialog').show();");
+//        }
+//    }
 
     public void novo() {
         limpar();
     }
 
-    @ExceptionHandled(MethodType.PERSIST)
-    public void gravar() {
-        preencherTipoContribuinte();
-        alterarEstado();
-        contribuinteSolicitanteService.gravar(solicitanteVO);
-    }
+//    @ExceptionHandled(MethodType.PERSIST)
+//    public void gravar() {
+//        preencherTipoContribuinte();
+//        alterarEstado();
+//        contribuinteSolicitanteService.gravar(solicitanteVO);
+//    }
 
-    @ExceptionHandled(MethodType.UPDATE)
-    public void atualizar() {
-        preencherTipoContribuinte();
-        alterarEstado();
-        contribuinteSolicitanteService.gravar(solicitanteVO);
-    }
+//    @ExceptionHandled(MethodType.UPDATE)
+//    public void atualizar() {
+//        preencherTipoContribuinte();
+//        alterarEstado();
+//        contribuinteSolicitanteService.gravar(solicitanteVO);
+//    }
 
     public List<Estado> getEstadosList() {
         List<Estado> estadosList = estadoSearch.findAll();

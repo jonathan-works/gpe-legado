@@ -56,22 +56,22 @@ public class ContribuinteView implements Serializable {
         limpar();
     }
 
-    @ExceptionHandled
-    public void consultarTurmalina() {
-        if (numeroCpf != null) {
-            contribuinteSolicitanteList = contribuinteSolicitanteSearch.getDadosContribuinteSolicitante(numeroCpf, numeroMatricula, ContribuinteEnum.CO);
-            JsfUtil.instance().execute("PF('listaContribuintesDialog').show();");
-        }
-    }
+//    @ExceptionHandled
+//    public void consultarTurmalina() {
+//        if (numeroCpf != null) {
+//            contribuinteSolicitanteList = contribuinteSolicitanteSearch.getDadosContribuinteSolicitante(numeroCpf, numeroMatricula, ContribuinteEnum.CO);
+//            JsfUtil.instance().execute("PF('listaContribuintesDialog').show();");
+//        }
+//    }
 
-    @ExceptionHandled
-    public void criarSolicitacaoCadastro() {
-        preencherTipoContribuinte();
-        alterarEstado();
-        contribuinteService.criarSinalContribuinte(contribuinteVO);
-        limpar();
-        FacesMessages.instance().add("Solicitação de Cadastro criada com sucesso");
-    }
+//    @ExceptionHandled
+//    public void criarSolicitacaoCadastro() {
+//        preencherTipoContribuinte();
+//        alterarEstado();
+//        contribuinteService.criarSinalContribuinte(contribuinteVO);
+//        limpar();
+//        FacesMessages.instance().add("Solicitação de Cadastro criada com sucesso");
+//    }
 
     public List<Estado> getEstadosList() {
         List<Estado> estadosList = estadoSearch.findAll();

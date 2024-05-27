@@ -58,16 +58,16 @@ public class ContribuinteService extends PersistenceController implements Serial
     @Inject
     private ContribuinteSolicitanteSearch contribuinteSolicitanteSearch;
 
-    public void criarSinalContribuinte(ContribuinteSolicitanteVO contribuinteVO) {
-        if (contribuinteSolicitanteSearch.isExisteUsuarioContribuinteSolicitante(contribuinteVO.getCpf())) {
-            throw new ValidationException("Já existe um usuário cadastrado para este CPF.");
-        }
-
-        validarSinal();
-        List<SignalParam> params = getParametros(contribuinteVO);
-        signalService.startStartStateListening(CODIGO_SINAL_CADASTRO_CONTRIBUINTE, params);
-        contribuinteSolicitanteService.gravar(contribuinteVO);
-    }
+//    public void criarSinalContribuinte(ContribuinteSolicitanteVO contribuinteVO) {
+//        if (contribuinteSolicitanteSearch.isExisteUsuarioContribuinteSolicitante(contribuinteVO.getCpf())) {
+//            throw new ValidationException("Já existe um usuário cadastrado para este CPF.");
+//        }
+//
+//        validarSinal();
+//        List<SignalParam> params = getParametros(contribuinteVO);
+//        signalService.startStartStateListening(CODIGO_SINAL_CADASTRO_CONTRIBUINTE, params);
+//        contribuinteSolicitanteService.gravar(contribuinteVO);
+//    }
 
     private void validarSinal() {
         if(!signalSearch.existeSignalByCodigo(CODIGO_SINAL_CADASTRO_CONTRIBUINTE)) {

@@ -31,18 +31,18 @@ public class ServidorSearch extends PersistenceController {
     @Inject
     private ETurmalinaService eTurmalinaService;
 
-    public List<ServidorVO> getDadosServidor(String numeroCpf){
-        List<ServidorVO> servidorList = new ArrayList<ServidorVO>();
-        DadosServidorBean dadosServidor = new DadosServidorBean(numeroCpf);
-
-        List<DadosServidorResponseBean> dadosServidores = eTurmalinaService.getDadosServidor(dadosServidor, Boolean.TRUE);
-        for (DadosServidorResponseBean dadosServidorResponseBean : dadosServidores) {
-            ServidorVO servidor = convertDadosServidorResponse(dadosServidorResponseBean);
-            servidorList.add(servidor);
-        }
-
-        return servidorList;
-    }
+//    public List<ServidorVO> getDadosServidor(String numeroCpf){
+//        List<ServidorVO> servidorList = new ArrayList<ServidorVO>();
+//        DadosServidorBean dadosServidor = new DadosServidorBean(numeroCpf);
+//
+//        List<DadosServidorResponseBean> dadosServidores = eTurmalinaService.getDadosServidor(dadosServidor, Boolean.TRUE);
+//        for (DadosServidorResponseBean dadosServidorResponseBean : dadosServidores) {
+//            ServidorVO servidor = convertDadosServidorResponse(dadosServidorResponseBean);
+//            servidorList.add(servidor);
+//        }
+//
+//        return servidorList;
+//    }
 
     public boolean isExisteUsuarioServidor(String numeroCpf){
         return getServidorByCpf(numeroCpf) != null;

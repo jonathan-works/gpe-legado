@@ -663,23 +663,23 @@
                     <wsdlDirectory>${project.basedir}/src/main/resources/META-INF/wsdl</wsdlDirectory>
                     <sourceDestDir>${project.build.directory}/generated-sources/wsimport</sourceDestDir>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>eTurmalina</id>
-                        <configuration>
-                            <wsdlFiles>
-                                <!-- Arquivo do serviço http://201.65.242.138:28081/e-turmalina/servlet/awsintegracao_rh?wsdl" -->
-                                <wsdlFile>eTurmalina.wsdl</wsdlFile>
-                            </wsdlFiles>
-                            <packageName>br.com.infox.epp.loglab.eturmalina.ws</packageName>
-                            <xadditionalHeaders>true</xadditionalHeaders>
-                        </configuration>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                    </execution>
-                </executions>
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>eTurmalina</id>-->
+<!--                        <configuration>-->
+<!--                            <wsdlFiles>-->
+<!--                                &lt;!&ndash; Arquivo do serviço http://201.65.242.138:28081/e-turmalina/servlet/awsintegracao_rh?wsdl" &ndash;&gt;-->
+<!--                                <wsdlFile>eTurmalina.wsdl</wsdlFile>-->
+<!--                            </wsdlFiles>-->
+<!--                            <packageName>br.com.infox.epp.loglab.eturmalina.ws</packageName>-->
+<!--                            <xadditionalHeaders>true</xadditionalHeaders>-->
+<!--                        </configuration>-->
+<!--                        <phase>generate-sources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>wsimport</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
             </plugin>
         </plugins>
     </build>

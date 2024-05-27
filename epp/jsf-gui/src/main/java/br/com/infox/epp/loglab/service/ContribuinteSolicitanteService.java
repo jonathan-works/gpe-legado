@@ -34,40 +34,40 @@ public class ContribuinteSolicitanteService extends PersistenceController {
     @Inject
     private ETurmalinaService eTurmalinaService;
 
-    public ContribuinteSolicitanteVO gravar(ContribuinteSolicitanteVO vo) {
-        ContribuinteSolicitante solicitante = solicitanteFromContribuinteSolicitanteVO(vo);
+//    public ContribuinteSolicitanteVO gravar(ContribuinteSolicitanteVO vo) {
+//        ContribuinteSolicitante solicitante = solicitanteFromContribuinteSolicitanteVO(vo);
+//
+//        PessoaFisica pf = salvarPessoaFisica(vo);
+//        solicitante.setPessoaFisica(pf);
+//        salvarUsuarioLogin(vo, pf);
+//        if (solicitante.getId() == null) {
+//            solicitante = contribuinteSolicitanteDAO.persist(solicitante);
+//            if (solicitante.getId() != null) {
+//                vo.setId(solicitante.getId());
+//            }
+//        } else {
+//            contribuinteSolicitanteDAO.update(solicitante);
+//        }
+//        return vo;
+//    }
 
-        PessoaFisica pf = salvarPessoaFisica(vo);
-        solicitante.setPessoaFisica(pf);
-        salvarUsuarioLogin(vo, pf);
-        if (solicitante.getId() == null) {
-            solicitante = contribuinteSolicitanteDAO.persist(solicitante);
-            if (solicitante.getId() != null) {
-                vo.setId(solicitante.getId());
-            }
-        } else {
-            contribuinteSolicitanteDAO.update(solicitante);
-        }
-        return vo;
-    }
-
-    private void salvarUsuarioLogin(ContribuinteSolicitanteVO vo, PessoaFisica pf) {
-        UsuarioLogin usuLogin = usuarioLoginManager.getUsuarioLoginByPessoaFisica(pf);
-        if(usuLogin == null) {
-            usuLogin = new UsuarioLogin();
-            usuLogin.setLogin(vo.getCpf());
-            usuLogin.setAtivo(eTurmalinaService.servidorEmExercicio(vo.getStatus()) ? Boolean.TRUE : Boolean.FALSE);
-            usuLogin.setTipoUsuario(UsuarioEnum.H);
-            usuLogin.setPessoaFisica(pf);
-        }
-        usuLogin.setNomeUsuario(vo.getNomeCompleto());
-        usuLogin.setEmail(vo.getEmail());
-        if (usuLogin.getIdUsuarioLogin() != null) {
-            usuLogin = usuarioLoginManager.update(usuLogin);
-        } else {
-            usuLogin = usuarioLoginManager.persist(usuLogin);
-        }
-    }
+//    private void salvarUsuarioLogin(ContribuinteSolicitanteVO vo, PessoaFisica pf) {
+//        UsuarioLogin usuLogin = usuarioLoginManager.getUsuarioLoginByPessoaFisica(pf);
+//        if(usuLogin == null) {
+//            usuLogin = new UsuarioLogin();
+//            usuLogin.setLogin(vo.getCpf());
+//            usuLogin.setAtivo(eTurmalinaService.servidorEmExercicio(vo.getStatus()) ? Boolean.TRUE : Boolean.FALSE);
+//            usuLogin.setTipoUsuario(UsuarioEnum.H);
+//            usuLogin.setPessoaFisica(pf);
+//        }
+//        usuLogin.setNomeUsuario(vo.getNomeCompleto());
+//        usuLogin.setEmail(vo.getEmail());
+//        if (usuLogin.getIdUsuarioLogin() != null) {
+//            usuLogin = usuarioLoginManager.update(usuLogin);
+//        } else {
+//            usuLogin = usuarioLoginManager.persist(usuLogin);
+//        }
+//    }
 
     private PessoaFisica salvarPessoaFisica(ContribuinteSolicitanteVO vo) {
         PessoaFisica pf = pessoaFisicaManager.getByCpf(vo.getCpf());

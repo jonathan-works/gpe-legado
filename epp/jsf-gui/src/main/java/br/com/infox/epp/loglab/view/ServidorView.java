@@ -43,12 +43,12 @@ public class ServidorView implements Serializable {
     	limpar();
 	}
 
-    public void consultarTurmalina() {
-    	if (numeroCpf != null) {
-    		servidorList = servidorSearch.getDadosServidor(numeroCpf);
-            JsfUtil.instance().execute("PF('listaServidoresDialog').show();");
-    	}
-    }
+//    public void consultarTurmalina() {
+//    	if (numeroCpf != null) {
+//    		servidorList = servidorSearch.getDadosServidor(numeroCpf);
+//            JsfUtil.instance().execute("PF('listaServidoresDialog').show();");
+//    	}
+//    }
 
     public void novo() {
     	limpar();
