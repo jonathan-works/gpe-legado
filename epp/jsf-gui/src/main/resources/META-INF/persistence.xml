@@ -28,12 +28,6 @@
 
       <property name="hibernate.cache.infinispan.cfg" value="infinispan-config.xml"/>
 
-      <property name="hibernate.cache.region_prefix" value="" />
-      <property name="hibernate.cache.use_second_level_cache" value="true" />
-      <property name="hibernate.cache.use_query_cache" value="true" />
-      <property name="hibernate.cache.region_prefix" value="" />
-      <property name="hibernate.cache.use_second_level_cache" value="true" />
-      <property name="hibernate.cache.use_query_cache" value="true" />
       <property name="hibernate.cache.infinispan.br.com.infox.epp.system.entity.Parametro.expiration.lifespan" value="10000"/>
       <property name="hibernate.cache.infinispan.br.com.infox.epp.cliente.entity.CalendarioEventos.expiration.lifespan" value="64800000"/><!-- 18horas -->
       <property name="hibernate.cache.infinispan.br.com.infox.epp.cliente.entity.CalendarioEventos.expiration.max_idle" value="21600000"/><!-- 6horas -->

@@ -24,7 +24,8 @@ public class ImageFileStarter {
 
     @Create
     public void init() {
-        imagemBinManager.createImageFiles();
+
+        //imagemBinManager.createImageFiles();
     }
 
 }
